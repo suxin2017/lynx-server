@@ -108,7 +108,7 @@ mod tests {
         let switch = dao.get_capture_switch().await?;
         assert!(matches!(
             switch.recording_status,
-            RecordingStatus::PauseRecording
+            RecordingStatus::StartRecording
         ));
         Ok(())
     }

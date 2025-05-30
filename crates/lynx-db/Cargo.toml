@@ -23,3 +23,11 @@ ts-rs = { version = "10.1", features = ["serde-json-impl"] }
 serde_json = "1.0.135"
 serde = "1.0.217"
 utoipa = { version = "5.3.1" }
+glob = "0.3"
+regex = "1.10"
+chrono = { version = "0.4", features = ["serde"] }
+async-trait = "0.1.88"
+axum = "0.8.4"
+http = { workspace = true }
+http-body-util = { workspace = true }
+thiserror = "1.0"

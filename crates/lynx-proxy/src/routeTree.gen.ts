@@ -15,11 +15,11 @@ import { Route as SettingsImport } from './routes/settings'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as SettingsIndexImport } from './routes/settings/index'
+import { Route as RuleManagerIndexImport } from './routes/ruleManager/index'
 import { Route as NetworkIndexImport } from './routes/network/index'
 import { Route as SettingsNetworkImport } from './routes/settings/network'
 import { Route as SettingsGeneralImport } from './routes/settings/general'
 import { Route as SettingsCertificatesImport } from './routes/settings/certificates'
-import { Route as RuleManagerDisableImport } from './routes/ruleManager/disable'
 
 // Create/Update Routes
 
@@ -47,6 +47,12 @@ const SettingsIndexRoute = SettingsIndexImport.update({
   getParentRoute: () => SettingsRoute,
 } as any)
 
+const RuleManagerIndexRoute = RuleManagerIndexImport.update({
+  id: '/ruleManager/',
+  path: '/ruleManager/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const NetworkIndexRoute = NetworkIndexImport.update({
   id: '/network/',
   path: '/network/',
@@ -69,12 +75,6 @@ const SettingsCertificatesRoute = SettingsCertificatesImport.update({
   id: '/certificates',
   path: '/certificates',
   getParentRoute: () => SettingsRoute,
-} as any)
-
-const RuleManagerDisableRoute = RuleManagerDisableImport.update({
-  id: '/ruleManager/disable',
-  path: '/ruleManager/disable',
-  getParentRoute: () => rootRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -100,13 +100,6 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsImport
-      parentRoute: typeof rootRoute
-    }
-    '/ruleManager/disable': {
-      id: '/ruleManager/disable'
-      path: '/ruleManager/disable'
-      fullPath: '/ruleManager/disable'
-      preLoaderRoute: typeof RuleManagerDisableImport
       parentRoute: typeof rootRoute
     }
     '/settings/certificates': {
@@ -135,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/network'
       fullPath: '/network'
       preLoaderRoute: typeof NetworkIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/ruleManager/': {
+      id: '/ruleManager/'
+      path: '/ruleManager'
+      fullPath: '/ruleManager'
+      preLoaderRoute: typeof RuleManagerIndexImport
       parentRoute: typeof rootRoute
     }
     '/settings/': {
@@ -171,22 +171,22 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/settings': typeof SettingsRouteWithChildren
-  '/ruleManager/disable': typeof RuleManagerDisableRoute
   '/settings/certificates': typeof SettingsCertificatesRoute
   '/settings/general': typeof SettingsGeneralRoute
   '/settings/network': typeof SettingsNetworkRoute
   '/network': typeof NetworkIndexRoute
+  '/ruleManager': typeof RuleManagerIndexRoute
   '/settings/': typeof SettingsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/ruleManager/disable': typeof RuleManagerDisableRoute
   '/settings/certificates': typeof SettingsCertificatesRoute
   '/settings/general': typeof SettingsGeneralRoute
   '/settings/network': typeof SettingsNetworkRoute
   '/network': typeof NetworkIndexRoute
+  '/ruleManager': typeof RuleManagerIndexRoute
   '/settings': typeof SettingsIndexRoute
 }
 
@@ -195,11 +195,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/settings': typeof SettingsRouteWithChildren
-  '/ruleManager/disable': typeof RuleManagerDisableRoute
   '/settings/certificates': typeof SettingsCertificatesRoute
   '/settings/general': typeof SettingsGeneralRoute
   '/settings/network': typeof SettingsNetworkRoute
   '/network/': typeof NetworkIndexRoute
+  '/ruleManager/': typeof RuleManagerIndexRoute
   '/settings/': typeof SettingsIndexRoute
 }
 
@@ -209,32 +209,32 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/settings'
-    | '/ruleManager/disable'
     | '/settings/certificates'
     | '/settings/general'
     | '/settings/network'
     | '/network'
+    | '/ruleManager'
     | '/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/ruleManager/disable'
     | '/settings/certificates'
     | '/settings/general'
     | '/settings/network'
     | '/network'
+    | '/ruleManager'
     | '/settings'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/settings'
-    | '/ruleManager/disable'
     | '/settings/certificates'
     | '/settings/general'
     | '/settings/network'
     | '/network/'
+    | '/ruleManager/'
     | '/settings/'
   fileRoutesById: FileRoutesById
 }
@@ -243,16 +243,16 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   SettingsRoute: typeof SettingsRouteWithChildren
-  RuleManagerDisableRoute: typeof RuleManagerDisableRoute
   NetworkIndexRoute: typeof NetworkIndexRoute
+  RuleManagerIndexRoute: typeof RuleManagerIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   SettingsRoute: SettingsRouteWithChildren,
-  RuleManagerDisableRoute: RuleManagerDisableRoute,
   NetworkIndexRoute: NetworkIndexRoute,
+  RuleManagerIndexRoute: RuleManagerIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -268,8 +268,8 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/settings",
-        "/ruleManager/disable",
-        "/network/"
+        "/network/",
+        "/ruleManager/"
       ]
     },
     "/": {
@@ -287,9 +287,6 @@ export const routeTree = rootRoute
         "/settings/"
       ]
     },
-    "/ruleManager/disable": {
-      "filePath": "ruleManager/disable.tsx"
-    },
     "/settings/certificates": {
       "filePath": "settings/certificates.tsx",
       "parent": "/settings"
@@ -304,6 +301,9 @@ export const routeTree = rootRoute
     },
     "/network/": {
       "filePath": "network/index.tsx"
+    },
+    "/ruleManager/": {
+      "filePath": "ruleManager/index.tsx"
     },
     "/settings/": {
       "filePath": "settings/index.tsx",

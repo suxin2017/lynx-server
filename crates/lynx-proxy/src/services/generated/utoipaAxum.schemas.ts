@@ -9,14 +9,84 @@ export interface BaseInfo {
   accessAddrList: string[];
 }
 
+export type CaptureConditionOneOfAllOfType =
+  (typeof CaptureConditionOneOfAllOfType)[keyof typeof CaptureConditionOneOfAllOfType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CaptureConditionOneOfAllOfType = {
+  simple: 'simple',
+} as const;
+
+export type CaptureConditionOneOfAllOf = {
+  type: CaptureConditionOneOfAllOfType;
+};
+
+export type CaptureConditionOneOf = SimpleCaptureCondition &
+  CaptureConditionOneOfAllOf;
+
+export type CaptureConditionOneOfFourAllOfType =
+  (typeof CaptureConditionOneOfFourAllOfType)[keyof typeof CaptureConditionOneOfFourAllOfType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CaptureConditionOneOfFourAllOfType = {
+  complex: 'complex',
+} as const;
+
+export type CaptureConditionOneOfFourAllOf = {
+  type: CaptureConditionOneOfFourAllOfType;
+};
+
+export type CaptureConditionOneOfFour = ComplexCaptureRule &
+  CaptureConditionOneOfFourAllOf;
+
+/**
+ * 捕获条件（简单或复杂）
+ */
+export type CaptureCondition =
+  | CaptureConditionOneOf
+  | CaptureConditionOneOfFour;
+
 export interface CaptureFilter {
   enabled: boolean;
   excludeDomains: DomainFilter[];
   includeDomains: DomainFilter[];
 }
 
+export type CaptureRuleId = number | null;
+
+/**
+ * 完整的捕获规则
+ */
+export interface CaptureRule {
+  condition: CaptureCondition;
+  id?: CaptureRuleId;
+}
+
 export interface CaptureSwitch {
   recordingStatus: RecordingStatus;
+}
+
+/**
+ * Capture type enumeration
+ */
+export type CaptureType = (typeof CaptureType)[keyof typeof CaptureType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CaptureType = {
+  glob: 'glob',
+  regex: 'regex',
+  exact: 'exact',
+  contains: 'contains',
+} as const;
+
+/**
+ * 复杂捕获规则（支持嵌套逻辑）
+ */
+export interface ComplexCaptureRule {
+  /** 子条件列表 */
+  conditions: CaptureCondition[];
+  /** 逻辑操作符 */
+  operator: LogicalOperator;
 }
 
 export interface DomainFilter {
@@ -42,6 +112,50 @@ export type GetRequestsDataTraceIds = string[] | null;
 export interface GetRequestsData {
   traceIds?: GetRequestsDataTraceIds;
 }
+
+export type HandlerRuleDescription = string | null;
+
+export type HandlerRuleId = number | null;
+
+/**
+ * Handler rule configuration
+ */
+export interface HandlerRule {
+  config: Value;
+  description?: HandlerRuleDescription;
+  enabled: boolean;
+  executionOrder: number;
+  handlerType: HandlerType;
+  id?: HandlerRuleId;
+  name: string;
+}
+
+/**
+ * Handler type enumeration
+ */
+export type HandlerType = (typeof HandlerType)[keyof typeof HandlerType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const HandlerType = {
+  block: 'block',
+  modifyRequest: 'modifyRequest',
+  localFile: 'localFile',
+  modifyResponse: 'modifyResponse',
+  proxyForward: 'proxyForward',
+} as const;
+
+/**
+ * 逻辑操作符
+ */
+export type LogicalOperator =
+  (typeof LogicalOperator)[keyof typeof LogicalOperator];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const LogicalOperator = {
+  and: 'and',
+  or: 'or',
+  not: 'not',
+} as const;
 
 export type MessageEventBody = string;
 
@@ -214,6 +328,23 @@ export const RecordingStatus = {
   pauseRecording: 'pauseRecording',
 } as const;
 
+export type RequestRuleDescription = string | null;
+
+export type RequestRuleId = number | null;
+
+/**
+ * 请求处理规则
+ */
+export interface RequestRule {
+  capture: CaptureRule;
+  description?: RequestRuleDescription;
+  enabled: boolean;
+  handlers: HandlerRule[];
+  id?: RequestRuleId;
+  name: string;
+  priority: number;
+}
+
 export type ResponseCode = (typeof ResponseCode)[keyof typeof ResponseCode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -277,6 +408,50 @@ export interface ResponseDataWrapperRecordRequests {
   message?: ResponseDataWrapperRecordRequestsMessage;
 }
 
+export type ResponseDataWrapperRequestRuleDataDescription = string | null;
+
+export type ResponseDataWrapperRequestRuleDataId = number | null;
+
+/**
+ * 请求处理规则
+ */
+export type ResponseDataWrapperRequestRuleData = {
+  capture: CaptureRule;
+  description?: ResponseDataWrapperRequestRuleDataDescription;
+  enabled: boolean;
+  handlers: HandlerRule[];
+  id?: ResponseDataWrapperRequestRuleDataId;
+  name: string;
+  priority: number;
+};
+
+export type ResponseDataWrapperRequestRuleMessage = string | null;
+
+export interface ResponseDataWrapperRequestRule {
+  code: ResponseCode;
+  /** 请求处理规则 */
+  data: ResponseDataWrapperRequestRuleData;
+  message?: ResponseDataWrapperRequestRuleMessage;
+}
+
+export type ResponseDataWrapperRuleListResponseData = {
+  /** @minimum 0 */
+  page: number;
+  /** @minimum 0 */
+  pageSize: number;
+  rules: SimpleRuleInfo[];
+  /** @minimum 0 */
+  total: number;
+};
+
+export type ResponseDataWrapperRuleListResponseMessage = string | null;
+
+export interface ResponseDataWrapperRuleListResponse {
+  code: ResponseCode;
+  data: ResponseDataWrapperRuleListResponseData;
+  message?: ResponseDataWrapperRuleListResponseMessage;
+}
+
 export type ResponseDataWrapperStringMessage = string | null;
 
 export interface ResponseDataWrapperString {
@@ -285,12 +460,80 @@ export interface ResponseDataWrapperString {
   message?: ResponseDataWrapperStringMessage;
 }
 
+export type ResponseDataWrapperTemplateHandlersResponseData = {
+  handlers: HandlerRule[];
+};
+
+export type ResponseDataWrapperTemplateHandlersResponseMessage = string | null;
+
+export interface ResponseDataWrapperTemplateHandlersResponse {
+  code: ResponseCode;
+  data: ResponseDataWrapperTemplateHandlersResponseData;
+  message?: ResponseDataWrapperTemplateHandlersResponseMessage;
+}
+
 export type ResponseDataWrapperTupleUnitMessage = string | null;
 
 export interface ResponseDataWrapperTupleUnit {
   code: ResponseCode;
   data: unknown;
   message?: ResponseDataWrapperTupleUnitMessage;
+}
+
+export interface RuleListResponse {
+  /** @minimum 0 */
+  page: number;
+  /** @minimum 0 */
+  pageSize: number;
+  rules: SimpleRuleInfo[];
+  /** @minimum 0 */
+  total: number;
+}
+
+/**
+ * 主机过滤
+ */
+export type SimpleCaptureConditionHost = string | null;
+
+/**
+ * HTTP方法过滤
+ */
+export type SimpleCaptureConditionMethod = string | null;
+
+/**
+ * 简单捕获条件
+ */
+export interface SimpleCaptureCondition {
+  /** 捕获类型（目前只支持Glob） */
+  captureType: CaptureType;
+  /** 额外配置 */
+  config: Value;
+  /** 主机过滤 */
+  host?: SimpleCaptureConditionHost;
+  /** HTTP方法过滤 */
+  method?: SimpleCaptureConditionMethod;
+  /** 匹配模式（Glob格式） */
+  pattern: string;
+}
+
+export type SimpleRuleInfoDescription = string | null;
+
+export type SimpleRuleInfoId = number | null;
+
+export interface SimpleRuleInfo {
+  description?: SimpleRuleInfoDescription;
+  enabled: boolean;
+  id?: SimpleRuleInfoId;
+  name: string;
+  priority: number;
+}
+
+export interface TemplateHandlersResponse {
+  handlers: HandlerRule[];
+}
+
+export interface ToggleRuleRequest {
+  enabled: boolean;
 }
 
 export type TunnelStatus = (typeof TunnelStatus)[keyof typeof TunnelStatus];
@@ -302,6 +545,8 @@ export const TunnelStatus = {
 } as const;
 
 export interface TupleUnit {}
+
+export interface Value {}
 
 export type WebSocketDirection =
   (typeof WebSocketDirection)[keyof typeof WebSocketDirection];
@@ -365,3 +610,18 @@ export type WebSocketStatus =
   | 'Connected'
   | 'Disconnected'
   | WebSocketStatusOneOf;
+
+export type ListRulesParams = {
+  /**
+   * 页码，从1开始
+   */
+  page?: number | null;
+  /**
+   * 每页数量，默认20
+   */
+  pageSize?: number | null;
+  /**
+   * 是否只获取启用的规则
+   */
+  enabledOnly?: boolean | null;
+};

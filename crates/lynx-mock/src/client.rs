@@ -75,6 +75,9 @@ impl PartialEq for MessageWrapper {
 }
 
 impl MockClient {
+    pub fn get_request_client(&self) -> Arc<Client> {
+        self.0.direct_client.clone()
+    }
     pub fn new(
         custom_cert: Option<Vec<Arc<rcgen::Certificate>>>,
         proxy_url: Option<String>,

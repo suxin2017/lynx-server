@@ -6,7 +6,7 @@ export const CommonCard: React.FC<
   }
 > = ({ title, subTitle, children, extra }) => {
   return (
-    <div className="h-full overflow-auto rounded-xl border border-gray-300 px-4 py-4 dark:border-gray-500">
+    <div className="h-full w-full overflow-auto rounded-xl border border-gray-300 px-4 py-4 dark:border-gray-500">
       <div className="flex items-center justify-between">
         <div>
           <Typography.Title level={3} className="m-0">

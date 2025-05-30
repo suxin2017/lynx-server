@@ -245,12 +245,14 @@ impl ProxyServer {
 
     async fn bind_tcp_listener_to_hyper(&mut self) -> Result<()> {
         let tcp_listeners = self.bind_tcp_listener().await?;
-        let mut addrs = vec![];
+        let bind_addrs: Vec<SocketAddr> = tcp_listeners
+            .iter()
+            .filter_map(|listener| listener.local_addr().ok())
+            .collect();
+        self.access_addr_list = bind_addrs;
         for tcp_listener in tcp_listeners {
-            addrs.push(tcp_listener.local_addr()?);
             self.bind_hyper(tcp_listener).await?;
         }
-        self.access_addr_list = addrs;
         Ok(())
     }
 }

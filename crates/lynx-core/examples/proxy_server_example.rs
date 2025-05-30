@@ -7,10 +7,16 @@ use lynx_core::proxy_server::{
 };
 use sea_orm::ConnectOptions;
 use tokio::signal;
+use tokio_rustls::rustls;
 use tracing_subscriber::{EnvFilter, fmt, layer::SubscriberExt, util::SubscriberInitExt};
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    // Initialize rustls crypto provider using ring - must be done before any TLS operations
+    rustls::crypto::ring::default_provider()
+        .install_default()
+        .map_err(|_| anyhow::anyhow!("Failed to install rustls crypto provider"))?;
+
     tracing_subscriber::registry()
         .with(fmt::layer())
         .with(EnvFilter::from_default_env().add_directive("lynx_core=trace".parse()?))

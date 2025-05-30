@@ -1,4 +1,5 @@
 import {
+  RiFileListLine,
   RiMoonLine,
   RiPlanetFill,
   RiSettings2Fill,
@@ -25,6 +26,11 @@ export const SideBar: React.FC = (_props) => {
       key: '/network',
       title: t('sideBar.network'),
       icon: <RiPlanetFill className="text-slate-600" size={24} />,
+    },
+    {
+      key: '/ruleManager',
+      title: t('sideBar.rules'),
+      icon: <RiFileListLine className="text-slate-600" size={24} />,
     },
   ];
   const bottomMenuConfig = [

@@ -96,6 +96,10 @@ pub async fn self_service_router(req: Req) -> Result<Response> {
         .nest("/certificate", api::certificate::router(state.clone()))
         .nest("/base_info", base_info::router(state.clone()))
         .nest("/https_capture", api::https_capture::router(state.clone()))
+        .nest(
+            "/request_processing",
+            api::request_processing::router(state.clone()),
+        )
         .split_for_parts();
 
     openapi.servers = Some(vec![Server::new(SELF_SERVICE_PATH_PREFIX)]);
