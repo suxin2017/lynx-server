@@ -19,7 +19,7 @@ name = "lynx_cli"
 path = "src/lib.rs"
 
 [dependencies]
-lynx-core = { version = "0.1.9-alpha.3", path = "../lynx-core" }
+lynx-core = { version = "0.1.9-alpha.4", path = "../lynx-core" }
 tracing-subscriber = { workspace = true }
 tracing = { workspace = true }
 anyhow = { workspace = true }
