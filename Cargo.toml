@@ -10,7 +10,7 @@ exclude = ["third-libs"]
 resolver = "2"
 
 [workspace.package]
-version = "0.2.2-alpha.1"
+version = "0.2.2-alpha.2"
 authors = ["suxin2017"]
 description = "A proxy service"
 edition = "2024"
