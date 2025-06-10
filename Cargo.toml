@@ -11,7 +11,7 @@ exclude = ["third-libs"]
 resolver = "2"
 
 [workspace.package]
-version = "0.2.2"
+version = "0.2.3"
 authors = ["suxin2017"]
 description = "Lynx Proxy Server"
 edition = "2024"
