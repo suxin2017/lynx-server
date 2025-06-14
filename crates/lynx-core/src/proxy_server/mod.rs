@@ -53,6 +53,9 @@ pub struct ProxyServer {
     pub custom_certs: Option<Arc<Vec<Arc<Certificate>>>>,
 
     #[builder(setter(strip_option))]
+    pub api_custom_certs: Option<Arc<Vec<Arc<Certificate>>>>,
+
+    #[builder(setter(strip_option))]
     pub static_dir: Option<Arc<StaticDir>>,
 
     pub config: Arc<ProxyServerConfig>,
@@ -81,6 +84,7 @@ impl ProxyServerBuilder {
             .map(|ip| SocketAddr::new(ip, port))
             .collect();
         let custom_certs = self.custom_certs.clone().flatten();
+        let api_custom_certs = self.api_custom_certs.clone().flatten();
         let db_config = self.db_config.clone().expect("db_config is required");
         let db_con = Database::connect(db_config.clone()).await?;
 
@@ -88,6 +92,7 @@ impl ProxyServerBuilder {
             port: self.port.flatten(),
             access_addr_list,
             custom_certs,
+            api_custom_certs,
             config: self.config.clone().expect("config is required"),
             db_config,
             static_dir: self.static_dir.clone().flatten(),

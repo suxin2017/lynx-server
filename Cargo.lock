@@ -2026,15 +2026,11 @@ dependencies = [
  "opentelemetry",
  "opentelemetry-otlp",
  "opentelemetry_sdk",
- "rand 0.8.5",
  "sea-orm",
- "serde",
- "serde_json",
  "tokio",
  "tracing",
  "tracing-opentelemetry",
  "tracing-subscriber",
- "uuid",
 ]
 
 [[package]]
@@ -2149,6 +2145,7 @@ dependencies = [
  "utoipa",
  "utoipa-axum",
  "utoipa-swagger-ui",
+ "webpki-roots 0.26.8",
 ]
 
 [[package]]
@@ -2194,6 +2191,7 @@ dependencies = [
  "rcgen",
  "reqwest 0.12.18",
  "reqwest-websocket",
+ "serde_json",
  "tokio",
  "tokio-rustls",
  "tokio-stream",

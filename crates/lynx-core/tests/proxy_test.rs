@@ -34,6 +34,7 @@ async fn proxy_test() -> Result<()> {
 }
 
 #[tokio::test]
+#[ignore = "need stable network connect"]
 async fn test_real_world_request() -> Result<()> {
     let mock_server = setup_mock_server().await?;
     let proxy_server = setup_proxy_server(Some(Arc::new(vec![mock_server.cert.clone()]))).await?;

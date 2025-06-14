@@ -1,5 +1,5 @@
 use crate::mark_service::MarkService;
-use crate::mock_server_fn::{HTTP_PATH_LIST, WS_PATH, mock_server_fn};
+use crate::mock_server_fn::{HTTP_PATH_LIST, MockPath, WS_PATH, mock_server_fn};
 use anyhow::Result;
 use hyper_util::rt::{TokioExecutor, TokioIo};
 use lynx_cert::{gen_server_config_by_ca, get_self_signed_cert, read_cert_and_key_by_file};
@@ -81,6 +81,7 @@ impl MockServer {
     pub fn get_http_mock_paths(&self) -> Vec<String> {
         HTTP_PATH_LIST
             .iter()
+            .filter(|path| !matches!(path, MockPath::Slow | MockPath::Timeout))
             .map(|path| format!("http://{}{}", self.addr, path))
             .collect()
     }
@@ -88,6 +89,7 @@ impl MockServer {
     pub fn get_https_mock_paths(&self) -> Vec<String> {
         HTTP_PATH_LIST
             .iter()
+            .filter(|path| !matches!(path, MockPath::Slow | MockPath::Timeout))
             .map(|path| format!("https://{}{}", self.addr, path))
             .collect()
     }

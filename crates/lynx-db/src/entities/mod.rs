@@ -2,6 +2,7 @@
 
 pub mod prelude;
 
+pub mod api_debug;
 pub mod app_config;
 pub mod capture;
 pub mod handler;

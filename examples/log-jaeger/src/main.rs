@@ -42,7 +42,7 @@ fn init_jaeger_tracer() -> Result<(), TraceError> {
     let telemetry_layer = OpenTelemetryLayer::new(tracer);
 
     Registry::default()
-        .with(EnvFilter::new("lynx_core=trace"))
+        .with(EnvFilter::new("lynx_core=trace,hyper=trace"))
         .with(
             tracing_subscriber::fmt::layer()
                 .with_target(true)

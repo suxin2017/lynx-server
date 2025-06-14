@@ -43,6 +43,14 @@ hyper-rustls = { version = "0.27.3", default-features = false, features = [
     "http2",
     "tls12",
 ] }
+reqwest = { version = "0.12.18", features = [
+    "rustls-tls-manual-roots",
+    "gzip",
+    "json",
+    "stream",
+    "rustls-tls",
+] }
+webpki-roots = "0.26.0"
 rustls-pemfile = "2.2.0"
 moka = { version = "0.12.10", features = ["future"] }
 rand = "0.8.5"

@@ -35,7 +35,8 @@ pub async fn setup_proxy_server(
         .server_ca_manager(Arc::new(server_ca_manager))
         .db_config(ConnectOptions::new("sqlite::memory:"));
     if let Some(custom_certs) = custom_certs {
-        proxy_server_builder.custom_certs(custom_certs);
+        proxy_server_builder.custom_certs(custom_certs.clone());
+        proxy_server_builder.api_custom_certs(custom_certs);
     }
 
     let mut proxy_server = proxy_server_builder.build().await?;

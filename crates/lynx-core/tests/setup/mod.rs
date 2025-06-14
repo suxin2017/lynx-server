@@ -2,6 +2,7 @@ use lynx_core::{proxy_server::ProxyServer, self_service::SELF_SERVICE_PATH_PREFI
 use lynx_mock::server::MockServer;
 
 pub mod mock_rule;
+pub mod setup_api_debug_server;
 pub mod setup_mock_server;
 pub mod setup_proxy_handler_server;
 pub mod setup_proxy_server;
