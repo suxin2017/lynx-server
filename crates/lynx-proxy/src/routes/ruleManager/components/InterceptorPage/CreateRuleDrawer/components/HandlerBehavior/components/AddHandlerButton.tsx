@@ -22,6 +22,17 @@ export const AddHandlerButton: React.FC<AddHandlerButtonProps> = ({ add }) => {
       },
     },
     {
+      key: 'delay',
+      type: 'delay' as const,
+      name: t('ruleManager.quickAdd.delay.name'),
+      config: {
+        type: 'delay',
+        delayMs: 1000,
+        varianceMs: null,
+        delayType: 'beforeRequest',
+      },
+    },
+    {
       key: 'modifyRequest',
       type: 'modifyRequest' as const,
       name: t('ruleManager.quickAdd.modifyRequest.name'),

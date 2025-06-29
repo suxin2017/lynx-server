@@ -21,6 +21,8 @@ const useHandlerRuleTypeConfig = (type?: HandlerRuleType) => {
     switch (type?.type) {
       case 'block':
         return { color: 'red', text: t('ruleManager.handlerTypes.block') };
+      case 'delay':
+        return { color: 'gold', text: t('ruleManager.handlerTypes.delay') };
       case 'modifyRequest':
         return {
           color: 'blue',
@@ -88,6 +90,25 @@ const useGetHandlerDescription = (handler: HandlerRule): string => {
         ' - ' +
         reason
       );
+
+    case 'delay':
+      const delayMs = handlerType.delayMs;
+      const delayType = handlerType.delayType;
+      const varianceMs = handlerType.varianceMs;
+
+      // 获取延迟类型的国际化文案
+      const delayTypeText = t(`ruleManager.createRuleDrawer.handlerBehavior.delayHandler.delayType.${delayType}`);
+
+      let delayText = t('ruleManager.handlerDescriptions.delay', {
+        delayMs,
+        delayType: delayTypeText
+      });
+
+      if (varianceMs) {
+        delayText += ` (±${varianceMs}ms)`;
+      }
+
+      return delayText;
 
     case 'modifyRequest':
       const parts = [];

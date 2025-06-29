@@ -41,6 +41,7 @@ export const HandlerItem: React.FC<HandlerItemProps> = React.memo(
 
       const typeMap = {
         block: t('ruleManager.handlerTypes.block'),
+        delay: t('ruleManager.handlerTypes.delay'),
         modifyRequest: t('ruleManager.handlerTypes.modifyRequest'),
         modifyResponse: t('ruleManager.handlerTypes.modifyResponse'),
         localFile: t('ruleManager.handlerTypes.localFile'),
@@ -65,6 +66,10 @@ export const HandlerItem: React.FC<HandlerItemProps> = React.memo(
           }) +
           ', ' +
           t('ruleManager.handlerDescriptions.reason'),
+        delay: t('ruleManager.handlerDescriptions.delay', {
+          delayMs: handlerType.delayMs || 1000,
+          delayType: handlerType.delayType || 'beforeRequest',
+        }),
         modifyRequest: t('ruleManager.handlerDescriptions.modifyRequest'),
         modifyResponse: t('ruleManager.handlerDescriptions.modifyResponse'),
         localFile: t('ruleManager.handlerDescriptions.file', {

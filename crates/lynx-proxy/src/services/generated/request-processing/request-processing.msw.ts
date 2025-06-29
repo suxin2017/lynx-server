@@ -11,6 +11,7 @@ import { HttpResponse, delay, http } from 'msw';
 
 import {
   CaptureType,
+  DelayType,
   LogicalOperator,
   ResponseCode,
 } from '../utoipaAxum.schemas';
@@ -228,6 +229,17 @@ export const getListRulesResponseMock = (
               type: faker.helpers.arrayElement(['htmlScriptInjector'] as const),
             },
           },
+          {
+            ...{
+              delayMs: faker.number.int({ min: 0, max: undefined }),
+              delayType: faker.helpers.arrayElement(Object.values(DelayType)),
+              varianceMs: faker.helpers.arrayElement([
+                faker.number.int({ min: 0, max: undefined }),
+                undefined,
+              ]),
+            },
+            ...{ type: faker.helpers.arrayElement(['delay'] as const) },
+          },
         ]),
         id: faker.helpers.arrayElement([
           faker.helpers.arrayElement([
@@ -442,6 +454,17 @@ export const getGetRuleResponseMock = (
             type: faker.helpers.arrayElement(['htmlScriptInjector'] as const),
           },
         },
+        {
+          ...{
+            delayMs: faker.number.int({ min: 0, max: undefined }),
+            delayType: faker.helpers.arrayElement(Object.values(DelayType)),
+            varianceMs: faker.helpers.arrayElement([
+              faker.number.int({ min: 0, max: undefined }),
+              undefined,
+            ]),
+          },
+          ...{ type: faker.helpers.arrayElement(['delay'] as const) },
+        },
       ]),
       id: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
@@ -630,6 +653,17 @@ export const getGetTemplateHandlersResponseMock = (
           ...{
             type: faker.helpers.arrayElement(['htmlScriptInjector'] as const),
           },
+        },
+        {
+          ...{
+            delayMs: faker.number.int({ min: 0, max: undefined }),
+            delayType: faker.helpers.arrayElement(Object.values(DelayType)),
+            varianceMs: faker.helpers.arrayElement([
+              faker.number.int({ min: 0, max: undefined }),
+              undefined,
+            ]),
+          },
+          ...{ type: faker.helpers.arrayElement(['delay'] as const) },
         },
       ]),
       id: faker.helpers.arrayElement([

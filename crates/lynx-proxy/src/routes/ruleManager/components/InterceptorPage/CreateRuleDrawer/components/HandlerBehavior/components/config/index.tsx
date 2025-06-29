@@ -1,6 +1,7 @@
 import React from 'react';
 import { HandlerRuleType } from '@/services/generated/utoipaAxum.schemas';
 import { BlockHandlerConfig } from './BlockHandlerConfig';
+import { DelayHandlerConfig } from './DelayHandlerConfig';
 import { ModifyRequestConfig } from './ModifyRequestConfig';
 import { ModifyResponseConfig } from './ModifyResponseConfig';
 import { LocalFileConfig } from './LocalFileConfig';
@@ -37,6 +38,8 @@ export const HandlerConfig: React.FC<HandlerConfigProps> = ({
   switch (handlerType) {
     case 'block':
       return <BlockHandlerConfig field={field} />;
+    case 'delay':
+      return <DelayHandlerConfig field={field} />;
     case 'modifyRequest':
       return <ModifyRequestConfig field={field} />;
     case 'modifyResponse':

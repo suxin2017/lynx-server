@@ -155,6 +155,15 @@ where
                             );
                             html_script_injector_config.handle_request(current_request).await
                         }
+                        HandlerRuleType::Delay(delay_config) => {
+                            tracing::trace!(
+                                "Executing delay handler for '{}' (delay: {}ms, variance: {:?}ms)",
+                                handler.name,
+                                delay_config.delay_ms,
+                                delay_config.variance_ms
+                            );
+                            delay_config.handle_request(current_request).await
+                        }
                     };
 
                     match handler_result {
@@ -225,10 +234,18 @@ where
                                 );
                                 response = html_script_injector_config.handle_response(response).await?;
                             }
+                            HandlerRuleType::Delay(delay_config) => {
+                                tracing::trace!(
+                                    "Executing delay response handler for '{}' (type: {:?})",
+                                    handler.name,
+                                    delay_config.delay_type
+                                );
+                                response = delay_config.handle_response(response).await?;
+                            }
                             _ => {
-                                tracing::warn!(
-                                    "Unexpected handler type in response processing: {:?}",
-                                    handler.handler_type
+                                tracing::trace!(
+                                    "Handler type '{}' does not support response processing",
+                                    handler.name
                                 );
                                 continue;
                             }

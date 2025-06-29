@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
 use super::{
-    BlockHandlerConfig, HtmlScriptInjectorConfig, LocalFileConfig, ModifyRequestConfig,
+    BlockHandlerConfig, DelayHandlerConfig, DelayType, HtmlScriptInjectorConfig, LocalFileConfig, ModifyRequestConfig,
     modify_response_handler::ModifyResponseConfig, proxy_forward_handler::ProxyForwardConfig,
 };
 
@@ -16,6 +16,7 @@ pub enum HandlerRuleType {
     ModifyResponse(ModifyResponseConfig),
     ProxyForward(ProxyForwardConfig),
     HtmlScriptInjector(HtmlScriptInjectorConfig),
+    Delay(DelayHandlerConfig),
 }
 
 impl From<&handler::Model> for HandlerRuleType {
@@ -50,6 +51,11 @@ impl From<&handler::Model> for HandlerRuleType {
                 let config: HtmlScriptInjectorConfig =
                     serde_json::from_value(model.config.clone()).unwrap_or_default();
                 HandlerRuleType::HtmlScriptInjector(config)
+            }
+            HandlerType::Delay => {
+                let config: DelayHandlerConfig =
+                    serde_json::from_value(model.config.clone()).unwrap_or_default();
+                HandlerRuleType::Delay(config)
             }
         }
     }
@@ -175,6 +181,25 @@ impl HandlerRule {
             name: "HTML Content Injector Handler".to_string(),
             description: Some("Inject HTML content into HTML responses".to_string()),
             execution_order: 85,
+            enabled: true,
+        }
+    }
+
+    pub fn delay_handler(
+        delay_ms: u64,
+        variance_ms: Option<u64>,
+        delay_type: DelayType,
+    ) -> Self {
+        Self {
+            id: None,
+            handler_type: HandlerRuleType::Delay(DelayHandlerConfig {
+                delay_ms,
+                variance_ms,
+                delay_type,
+            }),
+            name: "Delay Handler".to_string(),
+            description: Some("Add processing delay to requests".to_string()),
+            execution_order: 5, // Execute early to delay before processing
             enabled: true,
         }
     }

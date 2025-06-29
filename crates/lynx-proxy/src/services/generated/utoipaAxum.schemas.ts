@@ -211,6 +211,42 @@ export interface CreateRuleResponse {
   id: number;
 }
 
+/**
+ * Optional variance in milliseconds for random delay (±variance)
+ * @minimum 0
+ */
+export type DelayHandlerConfigVarianceMs = number | null;
+
+/**
+ * Delay handler configuration for adding request processing delays
+ */
+export interface DelayHandlerConfig {
+  /**
+   * Delay duration in milliseconds
+   * @minimum 0
+   */
+  delayMs: number;
+  /** Whether to delay before or after processing the request */
+  delayType: DelayType;
+  /**
+   * Optional variance in milliseconds for random delay (±variance)
+   * @minimum 0
+   */
+  varianceMs?: DelayHandlerConfigVarianceMs;
+}
+
+/**
+ * Type of delay to apply
+ */
+export type DelayType = (typeof DelayType)[keyof typeof DelayType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DelayType = {
+  beforeRequest: 'beforeRequest',
+  afterRequest: 'afterRequest',
+  both: 'both',
+} as const;
+
 export interface DomainFilter {
   domain: string;
   enabled: boolean;
@@ -432,13 +468,29 @@ export type HandlerRuleTypeOneOfOnesixAllOf = {
 export type HandlerRuleTypeOneOfOnesix = HtmlScriptInjectorConfig &
   HandlerRuleTypeOneOfOnesixAllOf;
 
+export type HandlerRuleTypeOneOfOnenineAllOfType =
+  (typeof HandlerRuleTypeOneOfOnenineAllOfType)[keyof typeof HandlerRuleTypeOneOfOnenineAllOfType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const HandlerRuleTypeOneOfOnenineAllOfType = {
+  delay: 'delay',
+} as const;
+
+export type HandlerRuleTypeOneOfOnenineAllOf = {
+  type: HandlerRuleTypeOneOfOnenineAllOfType;
+};
+
+export type HandlerRuleTypeOneOfOnenine = DelayHandlerConfig &
+  HandlerRuleTypeOneOfOnenineAllOf;
+
 export type HandlerRuleType =
   | HandlerRuleTypeOneOf
   | HandlerRuleTypeOneOfFour
   | HandlerRuleTypeOneOfSeven
   | HandlerRuleTypeOneOfOnezero
   | HandlerRuleTypeOneOfOnethree
-  | HandlerRuleTypeOneOfOnesix;
+  | HandlerRuleTypeOneOfOnesix
+  | HandlerRuleTypeOneOfOnenine;
 
 /**
  * Content to inject into HTML pages

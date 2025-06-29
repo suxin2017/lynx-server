@@ -1,4 +1,5 @@
 pub mod block_handler_trait;
+pub mod delay_handler_trait;
 pub mod future;
 pub mod handler_trait;
 pub mod html_script_injector_trait;

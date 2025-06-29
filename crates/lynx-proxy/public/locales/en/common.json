@@ -284,10 +284,12 @@
     "allActionsDisabled": "All actions disabled",
     "handlerTypes": {
       "block": "Block",
+      "delay": "Delay",
       "modifyRequest": "Modify Request",
       "modifyResponse": "Modify Response",
       "localFile": "Local File",
       "proxyForward": "Proxy Forward",
+      "htmlScriptInjector": "HTML Script Injector",
       "unknown": "Unknown Action"
     },
     "quickAdd": {
@@ -295,6 +297,10 @@
       "blockRequest": {
         "name": "Block Request",
         "description": "Block request with status code 403"
+      },
+      "delay": {
+        "name": "Delay Processing",
+        "description": "Add delay to request processing, simulate network latency"
       },
       "modifyRequest": {
         "name": "Modify Request",
@@ -344,6 +350,7 @@
     "handlerDescriptions": {
       "statusCode": "Status Code: {{code}}",
       "reason": "Access blocked",
+      "delay": "Delay: {{delayMs}}ms ({{delayType}})",
       "modifyHeaders": "Modify request headers",
       "modifyBody": "Modify request body",
       "modifyMethod": "Method: {{method}}",
@@ -497,6 +504,27 @@
           "statusCodeRange": "Status code must be between 100 and 599",
           "reason": "Block Reason",
           "description": "The blocked request will return the specified HTTP status code and reason. Common status codes: 403 (Forbidden), 404 (Not Found), 503 (Service Unavailable)"
+        },
+        "delayHandler": {
+          "title": "Delay Processing Configuration",
+          "delayMs": "Delay Time (milliseconds)",
+          "delayMsRequired": "Please enter delay time",
+          "delayMsMin": "Delay time must be greater than or equal to 0",
+          "varianceMs": "Random Variance (milliseconds)",
+          "varianceMsExtra": "Optional, add random variance to delay, actual delay = delay time ± variance",
+          "delayTypeLabel": "Delay Type",
+          "delayTypePlaceholder": "Select delay timing",
+          "delayType": {
+            "beforeRequest": "Before Request Processing",
+            "afterRequest": "After Request Processing",
+            "both": "Both Before and After"
+          },
+          "description": "Add delay to request processing to simulate network latency or throttle processing speed. Supports fixed delay or random delay range.",
+          "tips": {
+            "tip1": "Delay time is in milliseconds, 1000ms = 1 second",
+            "tip2": "Random variance makes delay more realistic, simulating unstable network conditions",
+            "tip3": "Delay type controls when the delay is applied in the request processing flow"
+          }
         },
         "proxyForward": {
           "title": "Proxy Forward Configuration",
